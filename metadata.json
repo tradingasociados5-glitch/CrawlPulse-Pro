@@ -1,0 +1,8 @@
+{
+  "name": "SEO Flow Studio",
+  "description": "All-in-one platform to automate SEO auditing, actionable optimization, and professional reporting for marketing agencies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
