@@ -29,6 +29,10 @@ import { PrivacyPolicyView } from './components/PrivacyPolicyView';
 import { GoogleCloudSetupGuide } from './components/GoogleCloudSetupGuide';
 import { PageSpeedComparisonModule } from './components/PageSpeedComparisonModule';
 import { CompetitorComparisonModule } from './components/CompetitorComparisonModule';
+import { SeoAiAdvisorModule } from './components/SeoAiAdvisorModule';
+import { KeywordRankingTrackerModule } from './components/KeywordRankingTrackerModule';
+import { SeoPathArchitectModule } from './components/SeoPathArchitectModule';
+import { SchemaMarkupBuilderModule } from './components/SchemaMarkupBuilderModule';
 
 interface AuditItem {
   id: string;
@@ -44,7 +48,7 @@ export default function App() {
   const [targetUrl, setTargetUrl] = useState('https://agency-client.com');
   const [isAuditing, setIsAuditing] = useState(false);
   const [auditProgress, setAuditProgress] = useState(100);
-  const [activeTab, setActiveTab] = useState<'overview' | 'competitors' | 'pagespeed' | 'cloudguide' | 'checklist' | 'trends' | 'analytics' | 'staging' | 'export' | 'privacy' | 'issues' | 'architecture' | 'config'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'schemabuilder' | 'patharchitect' | 'ranktracker' | 'advisor' | 'competitors' | 'pagespeed' | 'cloudguide' | 'checklist' | 'trends' | 'analytics' | 'staging' | 'export' | 'privacy' | 'issues' | 'architecture' | 'config'>('overview');
 
   const [audits] = useState<AuditItem[]>([
     {
@@ -133,6 +137,50 @@ export default function App() {
             }`}
           >
             Dashboard
+          </button>
+          <button
+            onClick={() => setActiveTab('schemabuilder')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'schemabuilder'
+                ? 'text-amber-400 border-b-2 border-amber-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <Code2 className="w-3.5 h-3.5 text-amber-400" />
+            Schema Builder
+          </button>
+          <button
+            onClick={() => setActiveTab('patharchitect')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'patharchitect'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5 text-emerald-400" />
+            Path Architect
+          </button>
+          <button
+            onClick={() => setActiveTab('ranktracker')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'ranktracker'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <BarChart3 className="w-3.5 h-3.5 text-blue-400" />
+            Rank Tracker
+          </button>
+          <button
+            onClick={() => setActiveTab('advisor')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'advisor'
+                ? 'text-purple-400 border-b-2 border-purple-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+            AI Advisor
           </button>
           <button
             onClick={() => setActiveTab('competitors')}
@@ -300,6 +348,26 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        {activeTab === 'schemabuilder' && (
+          <SchemaMarkupBuilderModule currentDomain={targetUrl} />
+        )}
+
+        {activeTab === 'patharchitect' && (
+          <SeoPathArchitectModule currentDomain={targetUrl} />
+        )}
+
+        {activeTab === 'ranktracker' && (
+          <KeywordRankingTrackerModule currentDomain={targetUrl} />
+        )}
+
+        {activeTab === 'advisor' && (
+          <SeoAiAdvisorModule
+            currentDomain={targetUrl}
+            issuesCount={audits.length}
+            healthScore={84}
+          />
+        )}
 
         {activeTab === 'competitors' && (
           <CompetitorComparisonModule currentClientDomain={targetUrl} />
