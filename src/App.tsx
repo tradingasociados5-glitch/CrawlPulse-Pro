@@ -21,6 +21,14 @@ import {
 } from 'lucide-react';
 import { invokeTauriCommand, SystemSpecs, isTauriEnvironment } from './tauriBridge';
 import { StagingSandboxModule } from './components/StagingSandboxModule';
+import { GoogleSearchConsoleModule } from './components/GoogleSearchConsoleModule';
+import { ExportReportModule } from './components/ExportReportModule';
+import { HistoricalTrendsModule } from './components/HistoricalTrendsModule';
+import { AuditChecklistModule } from './components/AuditChecklistModule';
+import { PrivacyPolicyView } from './components/PrivacyPolicyView';
+import { GoogleCloudSetupGuide } from './components/GoogleCloudSetupGuide';
+import { PageSpeedComparisonModule } from './components/PageSpeedComparisonModule';
+import { CompetitorComparisonModule } from './components/CompetitorComparisonModule';
 
 interface AuditItem {
   id: string;
@@ -36,7 +44,7 @@ export default function App() {
   const [targetUrl, setTargetUrl] = useState('https://agency-client.com');
   const [isAuditing, setIsAuditing] = useState(false);
   const [auditProgress, setAuditProgress] = useState(100);
-  const [activeTab, setActiveTab] = useState<'overview' | 'staging' | 'issues' | 'architecture' | 'config'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'competitors' | 'pagespeed' | 'cloudguide' | 'checklist' | 'trends' | 'analytics' | 'staging' | 'export' | 'privacy' | 'issues' | 'architecture' | 'config'>('overview');
 
   const [audits] = useState<AuditItem[]>([
     {
@@ -127,6 +135,72 @@ export default function App() {
             Dashboard
           </button>
           <button
+            onClick={() => setActiveTab('competitors')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'competitors'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <Users2 className="w-3.5 h-3.5 text-amber-400" />
+            Competitors (SERP)
+          </button>
+          <button
+            onClick={() => setActiveTab('pagespeed')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'pagespeed'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            PageSpeed & CrUX
+          </button>
+          <button
+            onClick={() => setActiveTab('cloudguide')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'cloudguide'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <Cloud className="w-3.5 h-3.5 text-blue-400" />
+            Google Cloud Guide
+          </button>
+          <button
+            onClick={() => setActiveTab('checklist')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'checklist'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <CheckSquare className="w-3.5 h-3.5 text-emerald-400" />
+            Audit Checklist
+          </button>
+          <button
+            onClick={() => setActiveTab('trends')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'trends'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <TrendingUp className="w-3.5 h-3.5 text-purple-400" />
+            Historical Trends
+          </button>
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'analytics'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5 text-blue-400" />
+            Search Analytics
+          </button>
+          <button
             onClick={() => setActiveTab('staging')}
             className={`py-1 transition-colors flex items-center gap-1.5 ${
               activeTab === 'staging'
@@ -136,6 +210,17 @@ export default function App() {
           >
             <Server className="w-3.5 h-3.5 text-emerald-400" />
             Staging Sandbox
+          </button>
+          <button
+            onClick={() => setActiveTab('export')}
+            className={`py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'export'
+                ? 'text-blue-400 border-b-2 border-blue-500'
+                : 'hover:text-white'
+            }`}
+          >
+            <FileText className="w-3.5 h-3.5 text-blue-400" />
+            Export Report (PDF)
           </button>
           <button
             onClick={() => setActiveTab('issues')}
@@ -216,7 +301,39 @@ export default function App() {
           </div>
         </section>
 
+        {activeTab === 'competitors' && (
+          <CompetitorComparisonModule currentClientDomain={targetUrl} />
+        )}
+
+        {activeTab === 'pagespeed' && (
+          <PageSpeedComparisonModule currentUrl={targetUrl} />
+        )}
+
+        {activeTab === 'cloudguide' && (
+          <GoogleCloudSetupGuide />
+        )}
+
+        {activeTab === 'checklist' && (
+          <AuditChecklistModule currentDomain={targetUrl} />
+        )}
+
+        {activeTab === 'trends' && (
+          <HistoricalTrendsModule currentDomain={targetUrl} />
+        )}
+
+        {activeTab === 'analytics' && (
+          <GoogleSearchConsoleModule currentAuditedDomain={targetUrl} />
+        )}
+
         {activeTab === 'staging' && <StagingSandboxModule />}
+
+        {activeTab === 'export' && (
+          <ExportReportModule auditedDomain={targetUrl} issues={audits} />
+        )}
+
+        {activeTab === 'privacy' && (
+          <PrivacyPolicyView onBack={() => setActiveTab('overview')} />
+        )}
 
         {activeTab === 'overview' && (
           <div className="space-y-6">
@@ -420,6 +537,14 @@ npm run tauri build`}</code>
       <footer className="bg-slate-900 border-t border-slate-800 px-5 py-3 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
         <span>SEO Flow Studio · Tauri (Rust) + React Native Architecture Foundation</span>
         <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setActiveTab('privacy')}
+            className="hover:text-blue-400 underline underline-offset-4 cursor-pointer"
+          >
+            Política de Privacidad
+          </button>
+          <span>·</span>
           <span>Version 0.1.0</span>
           <span>·</span>
           <span>Port 3000 IPC Ready</span>

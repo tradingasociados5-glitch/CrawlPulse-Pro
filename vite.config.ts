@@ -14,7 +14,7 @@ export default defineConfig(() => {
     clearScreen: false,
     server: {
       port: 3000,
-      strictPort: true,
+      host: '0.0.0.0',
       hmr: process.env.DISABLE_HMR !== 'true',
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },

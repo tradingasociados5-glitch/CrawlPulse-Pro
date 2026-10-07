@@ -15,8 +15,11 @@
     "@tailwindcss/vite": "^4.3.3",
     "@tauri-apps/api": "^2.12.1",
     "@vitejs/plugin-react": "^6.1.1",
+    "chart.js": "^4.5.1",
+    "jspdf": "^4.2.1",
     "lucide-react": "^0.546.0",
     "react": "^19.0.1",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.0.1",
     "vite": "^8.3.0"
   },
